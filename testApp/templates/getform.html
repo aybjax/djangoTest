@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+form getting
+{% endblock %}
+
+{% block body %}
+<form method="POST">
+    {%csrf_token%}
+    
+<table>
+    {{form.as_table}}
+</table>
+<input type="submit" value="submut">
+</form>
+{% endblock %}
