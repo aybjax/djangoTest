@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import TestForm
+from .forms import TestForm, TestRawForm
 
 
 # Create your views here.
@@ -21,7 +21,13 @@ def local(request, *args, **kwargs):
 
 
 def getform(request, *a, **kw):
-    form = TestForm(request.POST or None)
+    init = {
+        'name': 'your name',
+        'email': 'your email',
+        'nbr': 'your nbr',
+    }
+
+    form = TestForm(request.POST or None, initial=init)
     if form.is_valid():
         form.save()
     context = {
@@ -41,4 +47,13 @@ def getform(request, *a, **kw):
     else:
         print('NONE')
 
+    return render(request, 'getform.html', context)
+
+def rawform(request, *a, **kw):
+    form = TestRawForm(request.POST or None)
+    context = {'form': form}
+    if form.is_valid():
+        print(form)
+    else:
+        print(form)
     return render(request, 'getform.html', context)
