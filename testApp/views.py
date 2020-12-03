@@ -1,83 +1,50 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
 from .forms import TestForm, TestRawForm
 
 # Create your views here.
 from .models import TestModel
+from .viewsDir.functional import *
+
+import django.views.generic
 
 
-def home(request, *args, **kwargs):
-    return HttpResponse("<h1>Hello</h1>")
+class ClassCreate(django.views.generic.CreateView):
+    template_name = 'getform.html'
+    form_class = TestForm
+    queryset = TestModel.objects.all()
+    success_url = '/'
 
 
-def home2(request, *args, **kwargs):
-    context = {
-        'title': 'home2',
-        'body': 'home2'
-    }
-    return render(request, 'home2.html', context)
+class ClassGetAll(django.views.generic.ListView):
+    template_name = 'gettestall.html'
+    queryset = TestModel.objects.all()
+    context_object_name = 'objs'
 
 
-def local(request, *args, **kwargs):
-    return render(request, 'local.html', {})
+class ClassGet(django.views.generic.DetailView):
+    template_name = 'gettest.html'
+    queryset = TestModel.objects.all()
+    context_object_name = "obj"
 
 
-def getform(request, *a, **kw):
-    init = {
-        'name': 'your name',
-        'email': 'your email',
-        'nbr': 'your nbr',
-    }
+class ClassGet2(django.views.generic.DetailView):
+    template_name = 'gettest.html'
+    queryset = TestModel.objects.all()
 
-    form = TestForm(request.POST or None, initial=init)
-    if form.is_valid():
-        form.save()
-    context = {
-        'form': form,
-    }
-
-    print(request.method)
-
-    if request.method == 'POST':
-        print(request.POST)
-        print(type(request.POST))
-
-    elif request.method == 'GET':
-        print(request.GET)
-        print(type(request.GET))
-
-    else:
-        print('NONE')
-
-    return render(request, 'getform.html', context)
+    def get_object(self):
+        name = self.kwargs.get("name")
+        return get_object_or_404(TestModel, name=name)
 
 
-def rawform(request, *a, **kw):
-    form = TestRawForm(request.POST or None)
-    context = {'form': form}
-    if form.is_valid():
-        print(form)
-    else:
-        print(form)
-    return render(request, 'getform.html', context)
+class ClassUpdate(django.views.generic.UpdateView):
+    template_name = 'getform.html'
+    queryset = TestModel.objects.all()
+    form_class = TestForm
+    success_url = '/'
 
 
-def gettest(request, pk):
-    # obj = get_object_or_404(TestModel, pk=pk)
-    try:
-        obj = TestModel.objects.get(pk=pk)
-    except TestModel.DoesNotExist:
-        raise Http404
-    context = dict(obj=obj)
-    return render(request, 'gettest.html', context)
-
-
-def gettest2(request, name):
-    # obj = get_object_or_404(TestModel, name=name)
-    #testing commit and push
-    try:
-        obj = TestModel.objects.get(name=name)
-    except TestModel.DoesNotExist:
-        raise Http404
-    context = dict(obj=obj)
-    return render(request, 'gettest.html', context)
+class ClassDelete(django.views.generic.DeleteView):
+    template_name = 'delete.html'
+    queryset = TestModel.objects.all()
+    success_url = '/'

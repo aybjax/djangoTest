@@ -5,5 +5,9 @@ gettest
 {% endblock %}
 
 {% block body %}
-{{obj}}
+    {% if obj %}
+        {{obj}}
+    {% else %}
+        {{object}}
+    {% endif %}
 {% endblock %}

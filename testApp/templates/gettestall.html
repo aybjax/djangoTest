@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+gettestall
+{% endblock %}
+
+{% block body %}
+    {% if objs %}
+        {% for obj in objs %}
+            {{obj}} <br/>
+        {% endfor %}
+    {% else %}
+        {% for obj in object_list %}
+            {{obj}} <br/>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
