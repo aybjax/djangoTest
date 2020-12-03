@@ -74,6 +74,7 @@ def gettest(request, pk):
 
 def gettest2(request, name):
     # obj = get_object_or_404(TestModel, name=name)
+    #testing commit and push
     try:
         obj = TestModel.objects.get(name=name)
     except TestModel.DoesNotExist:
