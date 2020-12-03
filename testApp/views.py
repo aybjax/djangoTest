@@ -1,9 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, Http404
 from .forms import TestForm, TestRawForm
 
-
 # Create your views here.
+from .models import TestModel
+
+
 def home(request, *args, **kwargs):
     return HttpResponse("<h1>Hello</h1>")
 
@@ -49,6 +51,7 @@ def getform(request, *a, **kw):
 
     return render(request, 'getform.html', context)
 
+
 def rawform(request, *a, **kw):
     form = TestRawForm(request.POST or None)
     context = {'form': form}
@@ -57,3 +60,23 @@ def rawform(request, *a, **kw):
     else:
         print(form)
     return render(request, 'getform.html', context)
+
+
+def gettest(request, pk):
+    # obj = get_object_or_404(TestModel, pk=pk)
+    try:
+        obj = TestModel.objects.get(pk=pk)
+    except TestModel.DoesNotExist:
+        raise Http404
+    context = dict(obj=obj)
+    return render(request, 'gettest.html', context)
+
+
+def gettest2(request, name):
+    # obj = get_object_or_404(TestModel, name=name)
+    try:
+        obj = TestModel.objects.get(name=name)
+    except TestModel.DoesNotExist:
+        raise Http404
+    context = dict(obj=obj)
+    return render(request, 'gettest.html', context)

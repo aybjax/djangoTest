@@ -14,13 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import home, home2, local, getform, rawform
+from . import views
 
 app_name = "testApp"
 urlpatterns = [
-    path('test/', home, name='home'),
-    path('test2/', home2, name='home2'),
-    path('local/', local, name='local'),
-    path('getform/', getform, name='getForm'),
-    path('rawform/', rawform, name='rawform'),
+    path('test/', views.home, name='home'),
+    path('test2/', views.home2, name='home2'),
+    path('local/', views.local, name='local'),
+    path('getform/', views.getform, name='getForm'),
+    path('rawform/', views.rawform, name='rawform'),
+    path('gettest/<int:pk>', views.gettest, name='gettest'),
+    path('gettest2/<str:name>', views.gettest2, name='gettest2'),
 ]
