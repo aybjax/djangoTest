@@ -24,6 +24,9 @@
         {% csrf_token %}
         <table>
             {{form.as_table}}
+            {% if form2 %}
+                {{form2.as_table}}
+            {% endif %}
             <tr>
                 <td></td>
                 <td>

@@ -22,4 +22,5 @@ urlpatterns = [
         path('registeruser/', views.registerUser, name='register'),
         path('registerplusemail/', views.registerUserPlusEmail, name='registerwithemail'),
         path('registercustom/', views.registerCustomUser, name='registercustom'),
+        path('twoforms/', views.twoforms, name='2forms'),
 ]

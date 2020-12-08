@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'testApp',
     'api',
     'userstuff',
+    'relations',
 ]
 
 MIDDLEWARE = [
